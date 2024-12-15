@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: spring-6-rest-mvc-api
+    name: spring-6-data-rest
   data:
     rest:
       base-path: /api/v4
