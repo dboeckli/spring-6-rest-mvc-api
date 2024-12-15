@@ -1,5 +1,5 @@
 spring:
   application:
-    name: spring-6-mvc-api   
+    name: spring-6-rest-mvc-api  
   
   
