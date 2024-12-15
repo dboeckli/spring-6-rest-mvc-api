@@ -11,11 +11,11 @@
 
     <!-- artifacId should be lowercase to be able to push to github packages -->
     <groupId>guru.springframework</groupId>
-    <artifactId>spring-6-data-rest</artifactId>
+    <artifactId>spring-6-mvc-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     
     <name>${project.artifactId}</name>
-    <description>spring-6-data-rest</description>
+    <description>This is a library only project for spring-6-mvc</description>
 
     <scm>
         <connection>scm:git:https://github.com/${organization.name}/${project.artifactId}.git</connection>
@@ -32,12 +32,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-
-        <github.acions.build>false</github.acions.build>
-        <skip.docker.publish>true</skip.docker.publish>
-
-        <logbook.version>3.10.0</logbook.version>
-        <logstash-logback.version>8.0</logstash-logback.version>
 
         <!-- Sonar -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -67,20 +61,6 @@
                 </repository>
             </repositories>
         </profile>
-        <!-- CI/CD profile for GitHub Actions -->
-        <profile>
-            <id>ci-cd</id>
-            <activation>
-                <property>
-                    <name>env.GITHUB_ACTIONS</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <properties>
-                <github.acions.build>true</github.acions.build>
-                <skip.docker.publish>false</skip.docker.publish>
-            </properties>
-        </profile>
     </profiles>
     
     <distributionManagement>
@@ -93,59 +73,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>${logbook.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-logstash</artifactId>
-            <version>${logbook.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-logback.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -182,94 +117,6 @@
         </pluginManagement>
         
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>add-build-infos</id>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                        <configuration>
-                            <additionalProperties>
-                                <mavenUser>${user.name}</mavenUser>
-                                <javaVersion>${java.version}</javaVersion>
-                                <javaVendor>${java.vendor}</javaVendor>
-                                <commit-id>${buildNumber}</commit-id>
-                                <!--<docker-repository>${docker.push.repository}/${docker.image.prefix}/${project.artifactId}</docker-repository>-->
-                            </additionalProperties>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <goals>
-                            <goal>build-image-no-fork</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>publish-docker-image-to-github</id>
-                        <goals>
-                            <goal>build-image-no-fork</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                        <configuration>
-                            <skip>${skip.docker.publish}</skip>
-                            <image>
-                                <name>ghcr.io/${organization.name}/${project.artifactId}:${project.version}</name>
-                                <publish>true</publish>
-                            </image>
-                            <docker>
-                                <publishRegistry>
-                                    <!-- GITHUB_ACTOR and GITHUB_TOKEN are set by gitHub Actions -->
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <username>${env.GITHUB_ACTOR}</username>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <password>${env.GITHUB_TOKEN}</password>
-                                    <url>https://ghcr.io</url><!-- gitHub packages -->
-                                </publishRegistry>
-                            </docker>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>publish-docker-image-to-docker-hub</id>
-                        <goals>
-                            <goal>build-image-no-fork</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                        <configuration>
-                            <skip>${skip.docker.publish}</skip>
-                            <image>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <name>${env.DOCKER_USER}/${project.artifactId}:${project.version}</name>
-                                <publish>true</publish>
-                            </image>
-                            <docker>
-                                <publishRegistry>
-                                    <!-- DOCKER_USER and DOCKER_TOKEN are set by gitHub Actions -->
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <username>${env.DOCKER_USER}</username>
-                                    <!--suppress UnresolvedMavenProperty -->
-                                    <password>${env.DOCKER_TOKEN}</password>
-                                    <url>https://index.docker.io/v1/</url>
-                                </publishRegistry>
-                            </docker>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
