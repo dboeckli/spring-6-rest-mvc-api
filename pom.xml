@@ -13,6 +13,7 @@
     <groupId>ch.guru.springframework</groupId>
     <artifactId>spring-6-mvc-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     
     <name>${project.artifactId}</name>
     <description>This is a library only project for spring-6-mvc</description>
