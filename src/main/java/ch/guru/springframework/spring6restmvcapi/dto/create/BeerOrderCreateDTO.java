@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvcapi.dto;
+package ch.guru.springframework.spring6restmvcapi.dto.create;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,4 +21,5 @@ public class BeerOrderCreateDTO {
     private UUID customerId;
 
     private Set<BeerOrderLineCreateDTO> beerOrderLines;
+    
 }

@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvcapi.dto;
+package ch.guru.springframework.spring6restmvcapi.dto.update;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -24,4 +24,5 @@ public class BeerOrderLineUpdateDTO {
     private Integer orderQuantity;
 
     private Integer quantityAllocated;
+    
 }
