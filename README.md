@@ -1,7 +1,6 @@
 # Spring Framework 6: Beginner to Guru
-## Spring Data Rest
 
-Chapter 19: Spring Data Rest
+This is a library project for spring-6-mvc-api
 
 ## Getting Your Development Environment Setup
 ### Recommended Versions
