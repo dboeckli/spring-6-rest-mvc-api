@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvcapi.dto;
+package ch.guru.springframework.spring6restmvcapi.dto;
 
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -15,14 +15,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BeerOrderLineDTO {
     private UUID id;
-
     private Long version;
-    private Timestamp createdDate;
-    private Timestamp lastModifiedDate;
-
-    private BeerDTO beer;
 
     @Min(value = 1, message = "Quantity On Hand must be greater than 0")
     private Integer orderQuantity;
+
     private Integer quantityAllocated;
+
+    private BeerOrderLineStatus orderLineStatus;
+
+    private BeerDTO beer;
+
+    private Timestamp createdDate;
+    private Timestamp updateDate;
 }

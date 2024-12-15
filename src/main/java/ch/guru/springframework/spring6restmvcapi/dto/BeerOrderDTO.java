@@ -1,5 +1,6 @@
-package guru.springframework.spring6restmvcapi.dto;
+package ch.guru.springframework.spring6restmvcapi.dto;
 
+import ch.guru.springframework.spring6restmvcapi.dto.create.BeerOrderShipmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,16 +18,17 @@ import java.util.UUID;
 public class BeerOrderDTO {
     private UUID id;
     private Long version;
-    private Timestamp createdDate;
-    private Timestamp lastModifiedDate;
+
+    private BigDecimal paymentAmount;
 
     private String customerRef;
 
     private CustomerDTO customer;
 
-    private BigDecimal paymentAmount;
-
     private Set<BeerOrderLineDTO> beerOrderLines;
 
     private BeerOrderShipmentDTO beerOrderShipment;
+
+    private Timestamp createdDate;
+    private Timestamp updateDate;
 }

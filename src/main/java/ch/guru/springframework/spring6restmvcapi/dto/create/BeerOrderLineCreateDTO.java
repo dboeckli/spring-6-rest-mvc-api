@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvcapi.dto;
+package ch.guru.springframework.spring6restmvcapi.dto.create;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -20,4 +20,5 @@ public class BeerOrderLineCreateDTO {
 
     @Min(value = 1, message = "Quantity On Hand must be greater than 0")
     private Integer orderQuantity;
+    
 }
