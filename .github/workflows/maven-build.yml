@@ -52,6 +52,11 @@ jobs:
           echo "### ALLMYSECRETS: $ALLMYSECRETS"
           echo "### ALLMYVARS: $ALLMYVARS"
           echo "### ALLMYOUTPUT: $ALLMYOUTPUT"
+          echo ":sunflower: Cleaned Branch Name: ${{ steps.set_version.outputs.BRANCH_NAME }}" >> $GITHUB_STEP_SUMMARY
+          echo ":maple_leaf: GROUP ID: ${{ steps.set_version.outputs.GROUP_ID }}" >> $GITHUB_STEP_SUMMARY
+          echo ":maple_leaf: Artifact ID: ${{ steps.set_version.outputs.ARTIFACT_ID }}" >> $GITHUB_STEP_SUMMARY
+          echo ":maple_leaf: Original Maven version: ${{ steps.set_version.outputs.MVN_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo ":cactus: Calculated Maven Version: ${{ steps.set_version.outputs.BRANCH_MVN_VERSION }}" >> $GITHUB_STEP_SUMMARY
 
   build:
     runs-on: ubuntu-latest
@@ -88,9 +93,12 @@ jobs:
 
       - name: Run Maven Build
         env:
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ github.token }}
           BRANCH_MVN_VERSION: ${{needs.setup.outputs.BRANCH_MVN_VERSION}}
           BRANCH_NAME: ${{needs.setup.outputs.BRANCH_NAME}}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         run: |
           set -o pipefail    # don't hide errors within pipes
           set -o nounset     # abort on unbound variable
@@ -101,4 +109,4 @@ jobs:
             echo "::notice:: ### Build of Feature Branch ${BRANCH_NAME}. Version: $BRANCH_MVN_VERSION"
             mvn -B versions:set -e -DnewVersion="$BRANCH_MVN_VERSION"
           fi
-          mvn -B -e deploy -s $GITHUB_WORKSPACE/settings.xml
+          mvn -B -e install -s $GITHUB_WORKSPACE/settings.xml
