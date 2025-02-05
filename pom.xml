@@ -36,6 +36,7 @@
         <maven.compiler.target>21</maven.compiler.target>
 
         <!-- Sonar -->
+        <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
@@ -75,7 +76,7 @@
                 </repository>
                 <repository>
                     <id>github</id>
-                    <url>https://maven.pkg.github.com/${organization.name}/${project.artifactId}</url>
+                    <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -88,7 +89,7 @@
         <repository>
             <id>github</id>
             <name>GitHub dboeckli Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/${organization.name}/${project.artifactId}</url>
+            <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
         </repository>
     </distributionManagement>
 
@@ -148,6 +149,11 @@
                             </manifestEntries>
                         </archive>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
