@@ -27,6 +27,14 @@ class BeerOrderCreateDTOTest {
     }
 
     @Test
+    void testBeerOrdlinesBeerOrderCreateDTO() {
+        BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
+            .build();
+
+        assertNotNull(beerOrderCreateDTO.getBeerOrderLines());
+    }
+
+    @Test
     void testValidBeerOrderCreateDTO() {
         BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
             .customerRef("REF123")

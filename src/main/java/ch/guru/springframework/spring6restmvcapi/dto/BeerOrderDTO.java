@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,7 +26,8 @@ public class BeerOrderDTO {
 
     private CustomerDTO customer;
 
-    private Set<BeerOrderLineDTO> beerOrderLines;
+    @Builder.Default
+    private Set<BeerOrderLineDTO> beerOrderLines = new HashSet<>();
 
     private BeerOrderShipmentDTO beerOrderShipment;
 
