@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class BeerOrderCreateDTO {
     @NotNull
     private UUID customerId;
 
-    private Set<BeerOrderLineCreateDTO> beerOrderLines;
+    @Builder.Default
+    private Set<BeerOrderLineCreateDTO> beerOrderLines = new HashSet<>();
     
 }
