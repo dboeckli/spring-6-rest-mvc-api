@@ -31,7 +31,7 @@ jobs:
       ORGANIZATION: ${{ steps.set_version.outputs.ORGANIZATION }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -85,7 +85,7 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -151,7 +151,7 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
