@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderPlacedEvent {
 
-    private BeerOrderDTO beerOrderDTO;
+	private BeerOrderDTO beerOrderDTO;
+
 }

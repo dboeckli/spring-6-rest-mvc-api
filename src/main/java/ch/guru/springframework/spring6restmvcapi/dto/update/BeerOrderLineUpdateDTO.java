@@ -15,14 +15,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BeerOrderLineUpdateDTO {
 
-    private UUID id;
+	private UUID id;
 
-    @NotNull
-    private UUID beerId;
+	@NotNull
+	private UUID beerId;
 
-    @Min(value = 1, message = "Quantity On Hand must be greater than 0")
-    private Integer orderQuantity;
+	@Min(value = 1, message = "Quantity On Hand must be greater than 0")
+	private Integer orderQuantity;
 
-    private Integer quantityAllocated;
-    
+	private Integer quantityAllocated;
+
 }

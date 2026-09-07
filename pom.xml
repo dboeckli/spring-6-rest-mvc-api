@@ -1,335 +1,395 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
-        <relativePath /> <!-- lookup parent from repository -->
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.1</version>
+    <relativePath />
+    <!-- lookup parent from repository -->
+  </parent>
 
-    <!-- artifacId should be lowercase to be able to push to github packages -->
-    <groupId>ch.dboeckli.guru.springframework</groupId>
-    <artifactId>spring-6-rest-mvc-api </artifactId>
-    <version>0.0.5-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    
-    <name>${project.artifactId}</name>
-    <description>This is a library only project for spring-6-mvc</description>
+  <!-- artifacId should be lowercase to be able to push to github packages -->
+  <groupId>ch.dboeckli.guru.springframework</groupId>
+  <artifactId>spring-6-rest-mvc-api</artifactId>
+  <version>0.0.5-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-    <organization>
-        <name>dboeckli</name>
-    </organization>
+  <name>${project.artifactId}</name>
+  <description>This is a library only project for spring-6-mvc</description>
 
-    <scm>
-        <connection>scm:git:https://github.com/${project.organization.name}/${project.artifactId}.git</connection>
-        <developerConnection>scm:git:https://github.com/${project.organization.name}/${project.artifactId}.git</developerConnection>
-        <url>https://github.com/${project.organization.name}/${project.artifactId}.git</url>
-        <tag>HEAD</tag>
-    </scm>
+  <organization>
+    <name>dboeckli</name>
+  </organization>
 
-    <properties>
-        <java.version>25</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+  <scm>
+    <connection>scm:git:https://github.com/${project.organization.name}/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:https://github.com/${project.organization.name}/${project.artifactId}.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/${project.organization.name}/${project.artifactId}.git</url>
+  </scm>
 
-        <editorconfig-maven-plugin.version>0.2.0</editorconfig-maven-plugin.version>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub dboeckli Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
+    </repository>
+  </distributionManagement>
 
-        <!-- Sonar -->
-        <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.language>java</sonar.language>
-        <jacoco.version>0.8.15</jacoco.version>
+  <properties>
+    <java.version>25</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <!--suppress UnresolvedMavenProperty -->
-        <buildNumber>${git.commit.id.abbrev}</buildNumber>
-    </properties>
+    <spring-javaformat-maven-plugin.version>0.0.48</spring-javaformat-maven-plugin.version>
+    <spotless-maven-plugin.version>3.10.2</spotless-maven-plugin.version>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2</url>
-        </repository>
-        <repository>
-            <!--
+    <!-- Sonar -->
+    <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.language>java</sonar.language>
+    <jacoco.version>0.8.15</jacoco.version>
+
+    <!--suppress UnresolvedMavenProperty -->
+    <buildNumber>${git.commit.id.abbrev}</buildNumber>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <!--
             you need a personal access token for the dboeckli organization: generate access token on github: https://github.com/settings/apps
             add gitHub server configuration to settings.xml file with username and password (add token there)
             Configure maven settings of IntelliJ to use your personal settings.xml
             -->
-            <id>github</id>
-            <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
+    </repository>
+  </repositories>
 
-    <profiles>
-        <profile>
-            <id>github</id>
-            <repositories>
-                <repository>
-                    <id>central</id>
-                    <url>https://repo1.maven.org/maven2</url>
-                </repository>
-                <repository>
-                    <id>github</id>
-                    <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
-    
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub dboeckli Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
-        </repository>
-    </distributionManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <!-- Force the use of '-SNAPSHOT' version naming -->
+                <useUniqueVersions>false</useUniqueVersions>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Title>${project.name}</Implementation-Title>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <git-SHA-1>${buildNumber}</git-SHA-1>
+                <source-url>${project.scm.url}</source-url>
+                <BuildDate>${maven.build.timestamp}</BuildDate>
+                <Built-By>${user.name}</Built-By>
+                <Build-Jdk>${java.version}</Build-Jdk>
+                <packaging>${project.packaging}</packaging>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <plugins>
+      <plugin>
+        <groupId>io.spring.javaformat</groupId>
+        <artifactId>spring-javaformat-maven-plugin</artifactId>
+        <version>${spring-javaformat-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+            <phase>validate</phase>
+            <inherited>true</inherited>
+          </execution>
+        </executions>
+      </plugin>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                <addClasspath>true</addClasspath>
-                                <classpathPrefix>lib/</classpathPrefix>
-                                <!-- Force the use of '-SNAPSHOT' version naming -->
-                                <useUniqueVersions>false</useUniqueVersions>
-                            </manifest>
-                            <manifestEntries>
-                                <Implementation-Title>${project.name}</Implementation-Title>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>${project.artifactId}</artifactId>
-                                <Implementation-Version>${project.version}</Implementation-Version>
-                                <git-SHA-1>${buildNumber}</git-SHA-1>
-                                <source-url>${project.scm.url}</source-url>
-                                <BuildDate>${maven.build.timestamp}</BuildDate>
-                                <Built-By>${user.name}</Built-By>
-                                <Build-Jdk>${java.version}</Build-Jdk>
-                                <packaging>${project.packaging}</packaging>
-                            </manifestEntries>
-                        </archive>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>${sonar-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        
-        <plugins>
-            <plugin>
-                <groupId>org.ec4j.maven</groupId>
-                <artifactId>editorconfig-maven-plugin</artifactId>
-                <version>${editorconfig-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>check-with-editorconfig</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- See http://ec4j.github.io/editorconfig-maven-plugin/ for full configuration reference -->
-                    <excludes>
-                        <!-- Note that maven submodule directories and many non-source file patterns are excluded by default -->
-                        <!-- see https://github.com/ec4j/editorconfig-linters/blob/master/editorconfig-lint-api/src/main/java/org/ec4j/lint/api/Constants.java#L37 -->
-                        <!-- You can exclude further files from processing: -->
-                        <exclude>**/toolchains.xml</exclude>
-                        <exclude>**/settings.xml</exclude>
-                        <exclude>.run/**</exclude>
-                        <exclude>.mvn/**</exclude>
-                        <exclude>.idea/**</exclude>
-                        <exclude>**/banner.txt</exclude>
-                        <exclude>mvnw</exclude>
-                        <exclude>mvnw.cmd</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless-maven-plugin.version}</version>
+        <configuration>
+          <pom>
+            <includes>
+              <include>pom.xml</include>
+            </includes>
+            <excludes>
+              <exclude>target/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+            </excludes>
+            <sortPom>
+              <!-- to avoid conflicts with release maven plugin -->
+              <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+            </sortPom>
+          </pom>
+          <markdown>
+            <includes>
+              <include>**/*.md</include>
+            </includes>
+            <excludes>
+              <exclude>AGENTS.md</exclude>
+              <exclude>CLAUDE.md</exclude>
+              <exclude>target/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+            </excludes>
+            <flexmark />
+          </markdown>
+          <json>
+            <includes>
+              <include>**/*.json</include>
+            </includes>
+            <excludes>
+              <exclude>target/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+              <exclude>.github/**</exclude>
+              <exclude>.idea/**</exclude>
+            </excludes>
+            <prettier />
+          </json>
+          <yaml>
+            <includes>
+              <include>src/main/resources/application*.yaml</include>
+              <include>src/main/resources/application*.yml</include>
+            </includes>
+            <prettier />
+          </yaml>
+          <shell>
+            <includes>
+              <include>**/*.sh</include>
+            </includes>
+            <excludes>
+              <exclude>target/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+            </excludes>
+            <shfmt>
+              <version>3.13.1</version>
+            </shfmt>
+          </shell>
+        </configuration>
+        <executions>
+          <execution>
+            <id>enforce-format</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-java</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <message>This build requires at least Java ${java.version},
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <message>This build requires at least Java ${java.version},
                                         update your JVM, and
                                         run the build again</message>
-                                    <version>${java.version}</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+                  <version>${java.version}</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <!-- Spring Boot Actuator displays sbom-related information if a CycloneDX SBOM file is
+      <!-- Spring Boot Actuator displays sbom-related information if a CycloneDX SBOM file is
             present at the classpath -->
-            <plugin>
-                <groupId>org.cyclonedx</groupId>
-                <artifactId>cyclonedx-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>create-bill-of-materials</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>makeAggregateBom</goal>
-                            <goal>makeBom</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-bill-of-materials</id>
+            <goals>
+              <goal>makeAggregateBom</goal>
+              <goal>makeBom</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <!--suppress UnresolvedMavenProperty. argline is set by jacoco -->
-                            <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <!--suppress UnresolvedMavenProperty. argline is set by jacoco -->
-                            <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <!--suppress UnresolvedMavenProperty. argline is set by jacoco -->
+              <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <id>jacoco-prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <append>true</append>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jacoco-create-report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <formats>
-                                <format>XML</format>
-                            </formats>
-                            <outputDirectory>target/site/jacoco</outputDirectory> <!-- default -->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <!--suppress UnresolvedMavenProperty. argline is set by jacoco -->
+              <argLine>${argLine} -XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>jacoco-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <append>true</append>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-create-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <formats>
+                <format>XML</format>
+              </formats>
+              <outputDirectory>target/site/jacoco</outputDirectory>
+              <!-- default -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+      <!--
             this plugin generates some git properties. We use the "git.commit.id.abbrev" variable which we append
             to the docker image id for builds in jenkins (docker.application.image.tag). See "jenkins" profile at the top.
             -->
-            <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <verbose>true</verbose>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    <commitIdGenerationMode>full</commitIdGenerationMode>
-                    <runOnlyOnce>true</runOnlyOnce>
-                    <skipPoms>false</skipPoms>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <configuration>
+          <verbose>true</verbose>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+          <runOnlyOnce>true</runOnlyOnce>
+          <skipPoms>false</skipPoms>
+        </configuration>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/${project.organization.name}/${project.artifactId}</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
 </project>

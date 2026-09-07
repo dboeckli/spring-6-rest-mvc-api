@@ -14,57 +14,52 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BeerDTOTest {
 
-    private Validator validator;
+	private Validator validator;
 
-    @BeforeEach
-    void setUp() {
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            validator = factory.getValidator();
-        }
-    }
+	@BeforeEach
+	void setUp() {
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+			validator = factory.getValidator();
+		}
+	}
 
-    @Test
-    void testValidBeerDTO() {
-        BeerDTO beerDTO = BeerDTO.builder()
-            .beerName("Test Beer")
-            .beerStyle(BeerStyle.ALE)
-            .upc("123456")
-            .price(new BigDecimal("10.99"))
-            .build();
+	@Test
+	void testValidBeerDTO() {
+		BeerDTO beerDTO = BeerDTO.builder()
+			.beerName("Test Beer")
+			.beerStyle(BeerStyle.ALE)
+			.upc("123456")
+			.price(new BigDecimal("10.99"))
+			.build();
 
-        Set<ConstraintViolation<BeerDTO>> violations = validator.validate(beerDTO);
-        assertTrue(violations.isEmpty());
-    }
+		Set<ConstraintViolation<BeerDTO>> violations = validator.validate(beerDTO);
+		assertTrue(violations.isEmpty());
+	}
 
-    @Test
-    void testInvalidBeerDTO() {
-        BeerDTO beerDTO = BeerDTO.builder()
-            .beerName("")
-            .beerStyle(null)
-            .upc("")
-            .price(null)
-            .build();
+	@Test
+	void testInvalidBeerDTO() {
+		BeerDTO beerDTO = BeerDTO.builder().beerName("").beerStyle(null).upc("").price(null).build();
 
-        Set<ConstraintViolation<BeerDTO>> violations = validator.validate(beerDTO);
-        assertEquals(4, violations.size());
-    }
+		Set<ConstraintViolation<BeerDTO>> violations = validator.validate(beerDTO);
+		assertEquals(4, violations.size());
+	}
 
-    @Test
-    void testBeerDTOBuilder() {
-        BeerDTO beerDTO = BeerDTO.builder()
-            .beerName("Test Beer")
-            .beerStyle(BeerStyle.LAGER)
-            .upc("123456")
-            .price(new BigDecimal("9.99"))
-            .quantityOnHand(100)
-            .build();
+	@Test
+	void testBeerDTOBuilder() {
+		BeerDTO beerDTO = BeerDTO.builder()
+			.beerName("Test Beer")
+			.beerStyle(BeerStyle.LAGER)
+			.upc("123456")
+			.price(new BigDecimal("9.99"))
+			.quantityOnHand(100)
+			.build();
 
-        assertNotNull(beerDTO);
-        assertEquals("Test Beer", beerDTO.getBeerName());
-        assertEquals(BeerStyle.LAGER, beerDTO.getBeerStyle());
-        assertEquals("123456", beerDTO.getUpc());
-        assertEquals(new BigDecimal("9.99"), beerDTO.getPrice());
-        assertEquals(100, beerDTO.getQuantityOnHand());
-    }
-    
+		assertNotNull(beerDTO);
+		assertEquals("Test Beer", beerDTO.getBeerName());
+		assertEquals(BeerStyle.LAGER, beerDTO.getBeerStyle());
+		assertEquals("123456", beerDTO.getUpc());
+		assertEquals(new BigDecimal("9.99"), beerDTO.getPrice());
+		assertEquals(100, beerDTO.getQuantityOnHand());
+	}
+
 }

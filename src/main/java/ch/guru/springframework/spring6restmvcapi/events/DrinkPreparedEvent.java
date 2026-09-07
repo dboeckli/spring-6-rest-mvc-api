@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DrinkPreparedEvent {
 
-    private BeerOrderLineDTO beerOrderLineDTO;
-    
+	private BeerOrderLineDTO beerOrderLineDTO;
+
 }

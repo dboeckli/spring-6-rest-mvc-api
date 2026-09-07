@@ -16,12 +16,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BeerOrderCreateDTO {
 
-    private String customerRef;
+	private String customerRef;
 
-    @NotNull
-    private UUID customerId;
+	@NotNull
+	private UUID customerId;
 
-    @Builder.Default
-    private Set<BeerOrderLineCreateDTO> beerOrderLines = new HashSet<>();
-    
+	@Builder.Default
+	private Set<BeerOrderLineCreateDTO> beerOrderLines = new HashSet<>();
+
 }

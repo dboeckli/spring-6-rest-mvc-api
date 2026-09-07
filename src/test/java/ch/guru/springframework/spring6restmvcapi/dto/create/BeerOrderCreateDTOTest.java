@@ -16,64 +16,64 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BeerOrderCreateDTOTest {
 
-    private Validator validator;
+	private Validator validator;
 
-    @BeforeEach
-    void setUp() {
-        Locale.setDefault(Locale.US);
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            validator = factory.getValidator();
-        }
-    }
+	@BeforeEach
+	void setUp() {
+		Locale.setDefault(Locale.US);
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+			validator = factory.getValidator();
+		}
+	}
 
-    @Test
-    void testBeerOrdlinesBeerOrderCreateDTO() {
-        BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
-            .build();
+	@Test
+	void testBeerOrdlinesBeerOrderCreateDTO() {
+		BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder().build();
 
-        assertNotNull(beerOrderCreateDTO.getBeerOrderLines());
-    }
+		assertNotNull(beerOrderCreateDTO.getBeerOrderLines());
+	}
 
-    @Test
-    void testValidBeerOrderCreateDTO() {
-        BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
-            .customerRef("REF123")
-            .customerId(UUID.randomUUID())
-            .beerOrderLines(new HashSet<>())
-            .build();
+	@Test
+	void testValidBeerOrderCreateDTO() {
+		BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
+			.customerRef("REF123")
+			.customerId(UUID.randomUUID())
+			.beerOrderLines(new HashSet<>())
+			.build();
 
-        Set<ConstraintViolation<BeerOrderCreateDTO>> violations = validator.validate(beerOrderCreateDTO);
-        assertTrue(violations.isEmpty());
-    }
+		Set<ConstraintViolation<BeerOrderCreateDTO>> violations = validator.validate(beerOrderCreateDTO);
+		assertTrue(violations.isEmpty());
+	}
 
-    @Test
-    void testInvalidBeerOrderCreateDTO() {
-        BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
-            .customerRef("REF123")
-            .customerId(null)  // This should violate the @NotNull constraint
-            .build();
+	@Test
+	void testInvalidBeerOrderCreateDTO() {
+		BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
+			.customerRef("REF123")
+			.customerId(null) // This should violate the @NotNull constraint
+			.build();
 
-        Set<ConstraintViolation<BeerOrderCreateDTO>> violations = validator.validate(beerOrderCreateDTO);
-        assertEquals(1, violations.size());
-        assertEquals("must not be null", violations.iterator().next().getMessage());
-    }
+		Set<ConstraintViolation<BeerOrderCreateDTO>> violations = validator.validate(beerOrderCreateDTO);
+		assertEquals(1, violations.size());
+		assertEquals("must not be null", violations.iterator().next().getMessage());
+	}
 
-    @Test
-    void testBeerOrderCreateDTOBuilder() {
-        String customerRef = "REF123";
-        UUID customerId = UUID.randomUUID();
-        Set<BeerOrderLineCreateDTO> beerOrderLines = new HashSet<>();
-        beerOrderLines.add(new BeerOrderLineCreateDTO());
+	@Test
+	void testBeerOrderCreateDTOBuilder() {
+		String customerRef = "REF123";
+		UUID customerId = UUID.randomUUID();
+		Set<BeerOrderLineCreateDTO> beerOrderLines = new HashSet<>();
+		beerOrderLines.add(new BeerOrderLineCreateDTO());
 
-        BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
-            .customerRef(customerRef)
-            .customerId(customerId)
-            .beerOrderLines(beerOrderLines)
-            .build();
+		BeerOrderCreateDTO beerOrderCreateDTO = BeerOrderCreateDTO.builder()
+			.customerRef(customerRef)
+			.customerId(customerId)
+			.beerOrderLines(beerOrderLines)
+			.build();
 
-        assertNotNull(beerOrderCreateDTO);
-        assertEquals(customerRef, beerOrderCreateDTO.getCustomerRef());
-        assertEquals(customerId, beerOrderCreateDTO.getCustomerId());
-        assertEquals(beerOrderLines, beerOrderCreateDTO.getBeerOrderLines());
-    }
+		assertNotNull(beerOrderCreateDTO);
+		assertEquals(customerRef, beerOrderCreateDTO.getCustomerRef());
+		assertEquals(customerId, beerOrderCreateDTO.getCustomerId());
+		assertEquals(beerOrderLines, beerOrderCreateDTO.getBeerOrderLines());
+	}
+
 }

@@ -16,25 +16,29 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BeerDTO {
-    private UUID id;
-    private Integer version;
 
-    @NotNull
-    @NotBlank
-    private String beerName;
+	private UUID id;
 
-    @NotNull
-    private BeerStyle beerStyle;
+	private Integer version;
 
-    @NotNull
-    @NotBlank
-    private String upc;
-    
-    private Integer quantityOnHand;
+	@NotNull
+	@NotBlank
+	private String beerName;
 
-    @NotNull
-    private BigDecimal price;
-    
-    private LocalDateTime createdDate;
-    private LocalDateTime updateDate;
+	@NotNull
+	private BeerStyle beerStyle;
+
+	@NotNull
+	@NotBlank
+	private String upc;
+
+	private Integer quantityOnHand;
+
+	@NotNull
+	private BigDecimal price;
+
+	private LocalDateTime createdDate;
+
+	private LocalDateTime updateDate;
+
 }
