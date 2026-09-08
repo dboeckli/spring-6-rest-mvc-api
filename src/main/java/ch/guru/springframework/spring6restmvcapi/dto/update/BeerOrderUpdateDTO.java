@@ -16,15 +16,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BeerOrderUpdateDTO {
 
-    private String customerRef;
+	private String customerRef;
 
-    @NotNull
-    private UUID customerId;
+	@NotNull
+	private UUID customerId;
 
-    private Set<BeerOrderLineUpdateDTO> beerOrderLines;
+	private Set<BeerOrderLineUpdateDTO> beerOrderLines;
 
-    private BeerOrderShipmentUpdateDTO beerOrderShipment;
-    
-    private BigDecimal paymentAmount;
-    
+	private BeerOrderShipmentUpdateDTO beerOrderShipment;
+
+	private BigDecimal paymentAmount;
+
 }

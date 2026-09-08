@@ -15,63 +15,61 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BeerOrderLineCreateDTOTest {
 
-    private Validator validator;
+	private Validator validator;
 
-    @BeforeEach
-    void setUp() {
-        Locale.setDefault(Locale.US);
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            validator = factory.getValidator();
-        }
-    }
+	@BeforeEach
+	void setUp() {
+		Locale.setDefault(Locale.US);
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+			validator = factory.getValidator();
+		}
+	}
 
-    @Test
-    void testValidBeerOrderLineCreateDTO() {
-        BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
-            .beerId(UUID.randomUUID())
-            .orderQuantity(10)
-            .build();
+	@Test
+	void testValidBeerOrderLineCreateDTO() {
+		BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
+			.beerId(UUID.randomUUID())
+			.orderQuantity(10)
+			.build();
 
-        Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
-        assertTrue(violations.isEmpty());
-    }
+		Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
+		assertTrue(violations.isEmpty());
+	}
 
-    @Test
-    void testInvalidBeerOrderLineCreateDTO_NullBeerId() {
-        BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
-            .beerId(null)
-            .orderQuantity(10)
-            .build();
+	@Test
+	void testInvalidBeerOrderLineCreateDTO_NullBeerId() {
+		BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder().beerId(null).orderQuantity(10).build();
 
-        Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
-        assertEquals(1, violations.size());
-        assertEquals("must not be null", violations.iterator().next().getMessage());
-    }
+		Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
+		assertEquals(1, violations.size());
+		assertEquals("must not be null", violations.iterator().next().getMessage());
+	}
 
-    @Test
-    void testInvalidBeerOrderLineCreateDTO_InvalidOrderQuantity() {
-        BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
-            .beerId(UUID.randomUUID())
-            .orderQuantity(0)
-            .build();
+	@Test
+	void testInvalidBeerOrderLineCreateDTO_InvalidOrderQuantity() {
+		BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
+			.beerId(UUID.randomUUID())
+			.orderQuantity(0)
+			.build();
 
-        Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
-        assertEquals(1, violations.size());
-        assertEquals("Quantity On Hand must be greater than 0", violations.iterator().next().getMessage());
-    }
+		Set<ConstraintViolation<BeerOrderLineCreateDTO>> violations = validator.validate(dto);
+		assertEquals(1, violations.size());
+		assertEquals("Quantity On Hand must be greater than 0", violations.iterator().next().getMessage());
+	}
 
-    @Test
-    void testBeerOrderLineCreateDTOBuilder() {
-        UUID beerId = UUID.randomUUID();
-        int orderQuantity = 5;
+	@Test
+	void testBeerOrderLineCreateDTOBuilder() {
+		UUID beerId = UUID.randomUUID();
+		int orderQuantity = 5;
 
-        BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
-            .beerId(beerId)
-            .orderQuantity(orderQuantity)
-            .build();
+		BeerOrderLineCreateDTO dto = BeerOrderLineCreateDTO.builder()
+			.beerId(beerId)
+			.orderQuantity(orderQuantity)
+			.build();
 
-        assertNotNull(dto);
-        assertEquals(beerId, dto.getBeerId());
-        assertEquals(orderQuantity, dto.getOrderQuantity());
-    }
+		assertNotNull(dto);
+		assertEquals(beerId, dto.getBeerId());
+		assertEquals(orderQuantity, dto.getOrderQuantity());
+	}
+
 }

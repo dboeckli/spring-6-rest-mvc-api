@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BeerOrderShipmentUpdateDTO {
 
-    @NotBlank
-    private String trackingNumber;
-    
+	@NotBlank
+	private String trackingNumber;
+
 }

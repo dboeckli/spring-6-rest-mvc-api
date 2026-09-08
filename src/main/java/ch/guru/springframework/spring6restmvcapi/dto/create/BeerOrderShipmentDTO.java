@@ -14,13 +14,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BeerOrderShipmentDTO {
-    private UUID id;
-    private Long version;
 
-    @NotBlank
-    private String trackingNumber;
+	private UUID id;
 
-    private Timestamp createdDate;
-    private Timestamp lastModifiedDate;
-    
+	private Long version;
+
+	@NotBlank
+	private String trackingNumber;
+
+	private Timestamp createdDate;
+
+	private Timestamp lastModifiedDate;
+
 }

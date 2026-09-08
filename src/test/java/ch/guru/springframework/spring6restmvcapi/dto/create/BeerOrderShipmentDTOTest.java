@@ -17,81 +17,82 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BeerOrderShipmentDTOTest {
 
-    private Validator validator;
+	private Validator validator;
 
-    @BeforeEach
-    void setUp() {
-        Locale.setDefault(Locale.US);
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            validator = factory.getValidator();
-        }
-    }
+	@BeforeEach
+	void setUp() {
+		Locale.setDefault(Locale.US);
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+			validator = factory.getValidator();
+		}
+	}
 
-    @Test
-    void testValidBeerOrderShipmentDTO() {
-        BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
-            .id(UUID.randomUUID())
-            .version(1L)
-            .trackingNumber("TRACK123")
-            .createdDate(Timestamp.from(Instant.now()))
-            .lastModifiedDate(Timestamp.from(Instant.now()))
-            .build();
+	@Test
+	void testValidBeerOrderShipmentDTO() {
+		BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
+			.id(UUID.randomUUID())
+			.version(1L)
+			.trackingNumber("TRACK123")
+			.createdDate(Timestamp.from(Instant.now()))
+			.lastModifiedDate(Timestamp.from(Instant.now()))
+			.build();
 
-        Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
-        assertTrue(violations.isEmpty());
-    }
+		Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
+		assertTrue(violations.isEmpty());
+	}
 
-    @Test
-    void testInvalidBeerOrderShipmentDTO_BlankTrackingNumber() {
-        BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
-            .id(UUID.randomUUID())
-            .version(1L)
-            .trackingNumber("")
-            .createdDate(Timestamp.from(Instant.now()))
-            .lastModifiedDate(Timestamp.from(Instant.now()))
-            .build();
+	@Test
+	void testInvalidBeerOrderShipmentDTO_BlankTrackingNumber() {
+		BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
+			.id(UUID.randomUUID())
+			.version(1L)
+			.trackingNumber("")
+			.createdDate(Timestamp.from(Instant.now()))
+			.lastModifiedDate(Timestamp.from(Instant.now()))
+			.build();
 
-        Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
-        assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
-    }
+		Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
+		assertEquals(1, violations.size());
+		assertEquals("must not be blank", violations.iterator().next().getMessage());
+	}
 
-    @Test
-    void testInvalidBeerOrderShipmentDTO_NullTrackingNumber() {
-        BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
-            .id(UUID.randomUUID())
-            .version(1L)
-            .trackingNumber(null)
-            .createdDate(Timestamp.from(Instant.now()))
-            .lastModifiedDate(Timestamp.from(Instant.now()))
-            .build();
+	@Test
+	void testInvalidBeerOrderShipmentDTO_NullTrackingNumber() {
+		BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
+			.id(UUID.randomUUID())
+			.version(1L)
+			.trackingNumber(null)
+			.createdDate(Timestamp.from(Instant.now()))
+			.lastModifiedDate(Timestamp.from(Instant.now()))
+			.build();
 
-        Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
-        assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
-    }
+		Set<ConstraintViolation<BeerOrderShipmentDTO>> violations = validator.validate(dto);
+		assertEquals(1, violations.size());
+		assertEquals("must not be blank", violations.iterator().next().getMessage());
+	}
 
-    @Test
-    void testBeerOrderShipmentDTOBuilder() {
-        UUID id = UUID.randomUUID();
-        Long version = 1L;
-        String trackingNumber = "TRACK123";
-        Timestamp createdDate = Timestamp.from(Instant.now());
-        Timestamp lastModifiedDate = Timestamp.from(Instant.now());
+	@Test
+	void testBeerOrderShipmentDTOBuilder() {
+		UUID id = UUID.randomUUID();
+		Long version = 1L;
+		String trackingNumber = "TRACK123";
+		Timestamp createdDate = Timestamp.from(Instant.now());
+		Timestamp lastModifiedDate = Timestamp.from(Instant.now());
 
-        BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
-            .id(id)
-            .version(version)
-            .trackingNumber(trackingNumber)
-            .createdDate(createdDate)
-            .lastModifiedDate(lastModifiedDate)
-            .build();
+		BeerOrderShipmentDTO dto = BeerOrderShipmentDTO.builder()
+			.id(id)
+			.version(version)
+			.trackingNumber(trackingNumber)
+			.createdDate(createdDate)
+			.lastModifiedDate(lastModifiedDate)
+			.build();
 
-        assertNotNull(dto);
-        assertEquals(id, dto.getId());
-        assertEquals(version, dto.getVersion());
-        assertEquals(trackingNumber, dto.getTrackingNumber());
-        assertEquals(createdDate, dto.getCreatedDate());
-        assertEquals(lastModifiedDate, dto.getLastModifiedDate());
-    }
+		assertNotNull(dto);
+		assertEquals(id, dto.getId());
+		assertEquals(version, dto.getVersion());
+		assertEquals(trackingNumber, dto.getTrackingNumber());
+		assertEquals(createdDate, dto.getCreatedDate());
+		assertEquals(lastModifiedDate, dto.getLastModifiedDate());
+	}
+
 }

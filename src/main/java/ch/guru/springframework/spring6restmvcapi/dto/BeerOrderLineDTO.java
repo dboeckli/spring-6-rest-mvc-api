@@ -14,18 +14,22 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BeerOrderLineDTO {
-    private UUID id;
-    private Long version;
 
-    @Min(value = 1, message = "Quantity On Hand must be greater than 0")
-    private Integer orderQuantity;
+	private UUID id;
 
-    private Integer quantityAllocated;
+	private Long version;
 
-    private BeerOrderLineStatus orderLineStatus;
+	@Min(value = 1, message = "Quantity On Hand must be greater than 0")
+	private Integer orderQuantity;
 
-    private BeerDTO beer;
+	private Integer quantityAllocated;
 
-    private Timestamp createdDate;
-    private Timestamp updateDate;
+	private BeerOrderLineStatus orderLineStatus;
+
+	private BeerDTO beer;
+
+	private Timestamp createdDate;
+
+	private Timestamp updateDate;
+
 }

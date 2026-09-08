@@ -17,20 +17,24 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BeerOrderDTO {
-    private UUID id;
-    private Long version;
 
-    private BigDecimal paymentAmount;
+	private UUID id;
 
-    private String customerRef;
+	private Long version;
 
-    private CustomerDTO customer;
+	private BigDecimal paymentAmount;
 
-    @Builder.Default
-    private Set<BeerOrderLineDTO> beerOrderLines = new HashSet<>();
+	private String customerRef;
 
-    private BeerOrderShipmentDTO beerOrderShipment;
+	private CustomerDTO customer;
 
-    private Timestamp createdDate;
-    private Timestamp updateDate;
+	@Builder.Default
+	private Set<BeerOrderLineDTO> beerOrderLines = new HashSet<>();
+
+	private BeerOrderShipmentDTO beerOrderShipment;
+
+	private Timestamp createdDate;
+
+	private Timestamp updateDate;
+
 }

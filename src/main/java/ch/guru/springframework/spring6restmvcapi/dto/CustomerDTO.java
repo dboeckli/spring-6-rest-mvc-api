@@ -16,16 +16,16 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CustomerDTO {
 
-    private UUID id;
+	private UUID id;
 
-    private String version;
+	private String version;
 
-    private String name;
+	private String name;
 
-    private String email;
+	private String email;
 
-    private LocalDateTime createdDate;
+	private LocalDateTime createdDate;
 
-    private LocalDateTime updateDate;
+	private LocalDateTime updateDate;
 
 }
