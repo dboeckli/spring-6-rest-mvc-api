@@ -26,11 +26,11 @@ Start a new sandbox:
 
 ```powershell
 sbx run opencode `
-    --name spring-6-rest-mvc-api `
-    --static-mcp idea `
-    -t docker/sandbox-templates:opencode-docker-0.5.0 `
     --kit "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent" `
-    "C:\development\projects\spring-6-rest-mvc-api" `
+    --template docker/sandbox-templates:opencode-docker-0.5.0 `
+    --no-share-skills `
+    --static-mcp idea `
+    . `
     "C:\development\maven-repo:ro"
 ```
 
@@ -38,11 +38,11 @@ Start the sandbox with Kubernetes support:
 
 ```powershell
 sbx run opencode `
-    --name spring-6-rest-mvc-api `
-    --static-mcp idea `
-    -t docker/sandbox-templates:opencode-docker-0.5.0 `
     --kit "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent" `
-    "C:\development\projects\spring-6-rest-mvc-api" `
+    --template docker/sandbox-templates:opencode-docker-0.5.0 `
+    --no-share-skills `
+    --static-mcp idea `
+    . `
     "C:\development\maven-repo:ro" `
     "$env:USERPROFILE\.kube:ro"
 ```
@@ -50,6 +50,6 @@ sbx run opencode `
 Apply the kit to an existing sandbox (restarts the sandbox, VM state is kept):
 
 ```powershell
-sbx kit add spring-6-rest-mvc-api "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent"
+sbx kit add <sandbox-name> "git+https://github.com/dboeckli/opencode-sandbox-kit.git#dir=opencode-agent"
 ```
 
