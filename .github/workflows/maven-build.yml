@@ -104,18 +104,6 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml.
           settings-path: ${{ github.workspace }} # location for the settings.xml file  
 
-      - name: show variables
-        id: show_build_variables
-        shell: bash
-        env:
-          ALLMYSECRETS: ${{ toJSON(secrets) }}
-          ALLMYVARS: ${{ toJSON(vars) }}
-          ALLMYOUTPUT: ${{ toJSON(needs.setup.outputs) }}
-        run: |
-          echo "### ALLMYSECRETS: $ALLMYSECRETS"
-          echo "### ALLMYVARS: $ALLMYVARS"
-          echo "### ALLMYOUTPUT: $ALLMYOUTPUT"
-
       - name: Run Maven Build
         env:
           GITHUB_ACTOR: ${{ github.actor }}
