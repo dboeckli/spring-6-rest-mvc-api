@@ -4,6 +4,9 @@ run-name: >
 
 env:
   JAVA_VERSION: 25
+  # Use the committed CI settings (Maven Central mirror + GitHub Packages server).
+  # MAVEN_ARGS is picked up by every mvn invocation, including the version script.
+  MAVEN_ARGS: "-s ${{ github.workspace }}/.github/workflows/maven-settings.xml -Daether.connector.http.retryHandler.count=5"
 
 on:
   push:
@@ -11,7 +14,7 @@ on:
   pull_request:
     branches: [ "main", "master" ]
   schedule:
-    - cron: '1 2 * * *' # daily at 2:01
+    - cron: '11 5 * * *' # daily at 5:11 (staggered, outside the crowded 02:00/20:00 UTC slots)
 jobs:
 
   setup:
@@ -59,11 +62,9 @@ jobs:
         id: show_variables
         shell: bash
         env:
-          ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
           ALLMYOUTPUT: ${{ toJSON(steps.set_version.outputs) }}
         run: |
-          echo "### ALLMYSECRETS: $ALLMYSECRETS"
           echo "### ALLMYVARS: $ALLMYVARS"
           echo "### ALLMYOUTPUT: $ALLMYOUTPUT"
           echo ":sunflower: Cleaned Branch Name: ${{ steps.set_version.outputs.BRANCH_NAME }}" >> $GITHUB_STEP_SUMMARY
@@ -132,7 +133,7 @@ jobs:
             echo "::notice:: ### Build of Feature Branch ${BRANCH_NAME}. Version: $BRANCH_MVN_VERSION"
             mvn -B versions:set -e -DnewVersion="$BRANCH_MVN_VERSION"
           fi
-          mvn -B -e deploy -s $GITHUB_WORKSPACE/settings.xml
+          mvn -B -e deploy
   
   analyze:
     runs-on: ubuntu-latest
@@ -192,7 +193,7 @@ jobs:
             echo "::notice:: ### Build of Feature Branch ${BRANCH_NAME}. Version: $BRANCH_MVN_VERSION"
             mvn -B versions:set -e -DnewVersion="$BRANCH_MVN_VERSION"
           fi
-          mvn -B -e install -Dskip.start.stop.springboot=true -s $GITHUB_WORKSPACE/settings.xml	
+          mvn -B -e install -Dskip.start.stop.springboot=true
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.26.0
@@ -230,7 +231,6 @@ jobs:
           
           if [[ "${BRANCH_NAME}" == "master" ||  "${BRANCH_NAME}" == "main" ]]; then
             mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                  -s $GITHUB_WORKSPACE/settings.xml \
                   -Dsonar.token=${SONAR_TOKEN} \
                   -Dsonar.host.url=https://sonarcloud.io \
                   -Dsonar.sourceEncoding=UTF-8 \
@@ -240,7 +240,6 @@ jobs:
           else
             mvn -B versions:set -e -DnewVersion="$BRANCH_MVN_VERSION"
             mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                  -s $GITHUB_WORKSPACE/settings.xml \
                   -Dsonar.token=${SONAR_TOKEN} \
                   -Dsonar.host.url=https://sonarcloud.io \
                   -Dsonar.sourceEncoding=UTF-8 \

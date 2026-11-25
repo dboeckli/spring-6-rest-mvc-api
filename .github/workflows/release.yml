@@ -2,6 +2,8 @@ name: Maven Release
 
 env:
   JAVA_VERSION: 25
+  # Use the committed CI settings (Maven Central mirror + GitHub Packages server).
+  MAVEN_ARGS: "-s ${{ github.workspace }}/.github/workflows/maven-settings.xml -Daether.connector.http.retryHandler.count=5"
 
 on:
   workflow_dispatch:
@@ -124,4 +126,4 @@ jobs:
             exit 1
           fi
           done
-          mvn -B release:prepare release:perform -s $GITHUB_WORKSPACE/settings.xml
+          mvn -B release:prepare release:perform
